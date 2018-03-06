@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RYAlertController">
             <connections>
+                <outlet property="contentView" destination="urn-ah-GaI" id="Wiy-kG-dl0"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,9 +19,39 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="270" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="urn-ah-GaI">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="150"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qL5-xt-ES9">
+                            <rect key="frame" x="0.0" y="0.0" width="270" height="150"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="150" id="yfm-qK-aAs"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="DqE-w2-mAQ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="qL5-xt-ES9" firstAttribute="top" secondItem="urn-ah-GaI" secondAttribute="top" id="NjD-kU-DfH"/>
+                        <constraint firstAttribute="bottom" secondItem="qL5-xt-ES9" secondAttribute="bottom" id="Oby-VS-ZOP"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="T2s-4o-Y43"/>
+                        <constraint firstItem="qL5-xt-ES9" firstAttribute="leading" secondItem="urn-ah-GaI" secondAttribute="leading" id="YmG-f4-UYd"/>
+                        <constraint firstAttribute="width" constant="270" id="qHb-k7-w4x"/>
+                        <constraint firstAttribute="trailing" secondItem="qL5-xt-ES9" secondAttribute="trailing" id="t6f-z2-flE"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="urn-ah-GaI" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="6I6-FH-hm3"/>
+                <constraint firstItem="urn-ah-GaI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CC1-TH-KXa"/>
+                <constraint firstItem="urn-ah-GaI" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="OK3-fT-Cfb"/>
+                <constraint firstItem="urn-ah-GaI" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="fVL-Px-PjG"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="atl-m7-QpB"/>
             <point key="canvasLocation" x="27.5" y="-356.5"/>
         </view>
     </objects>

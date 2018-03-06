@@ -9,16 +9,16 @@
 
 @interface RYAlertController () 
 
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) IBOutlet UIView *contentView;
 
 @end
 
 @implementation RYAlertController
 
 + (instancetype)alertControllerWithTitle:(nullable NSString *)title message:(nullable NSString *)message {
-//    NSAssert(title.length > 0 || description.length > 0 , @"title和description不能同时为空");
     
-    RYAlertController *alertController = [[RYAlertController alloc]init];
+    NSBundle *bundle = [NSBundle bundleForClass:[self classForCoder]];
+    RYAlertController *alertController = [[RYAlertController alloc]initWithNibName:NSStringFromClass([self class]) bundle:bundle];
 //    alertController.transitioningDelegate = alertController;
 //    alertController.modalPresentationStyle = UIModalPresentationCustom;
 //    alert.titleText = title;
@@ -30,8 +30,8 @@
     return alertController;
 }
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.transitioningDelegate = self;
         self.modalPresentationStyle = UIModalPresentationCustom;
@@ -44,8 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self contentViewInit];
-    self.contentView.backgroundColor = [UIColor whiteColor];
+//    [self contentViewInit];
+//    self.contentView.backgroundColor = [UIColor whiteColor];
 //    UIBlurEffect *visualEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
 //    UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc]initWithEffect:visualEffect];
 //    visualEffectView.frame = self.view.bounds;
@@ -59,38 +59,12 @@
 //    [self.view addSubview:button];
 }
 
-- (void)contentViewInit {
-    UIView *view = [[UIView alloc]init];
-    view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:view];
-    
-    NSLayoutConstraint *viewWidth = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:270];
-    [viewWidth setActive:YES];
-    
-    NSLayoutConstraint *viewSuperViewwidth = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:view.superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
-    [viewSuperViewwidth setActive:YES];
-    
-    NSLayoutConstraint *viewCenterX = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
-    [viewCenterX setActive:YES];
-    
-    NSLayoutConstraint *viewCenterY = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view.superview attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
-    [viewCenterY setActive:YES];
-    
-    NSLayoutConstraint *viewHeight_0 = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
-    [viewHeight_0 setActive:YES];
-    
-    NSLayoutConstraint *viewHeight_1 = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:631];
-    [viewHeight_1 setActive:YES];
-    
-    self.contentView = view;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)buttonClick:(id)sender {
+- (IBAction)buttonClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -166,7 +140,7 @@
     UIView *containerView = [transitionContext containerView];
     
     UIView *backView = [[UIView alloc]initWithFrame:containerView.bounds];
-    backView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    backView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
     backView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     [containerView addSubview:backView];
     
