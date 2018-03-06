@@ -117,7 +117,7 @@
             return 0.3;
             break;
         case RYAlertAnimationTypeDismiss:
-            return 0.1;
+            return 0.3;
             break;
     }
 }
@@ -135,12 +135,12 @@
 
 - (void)presentAnimationTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+//    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     
     UIView *backView = [[UIView alloc]initWithFrame:containerView.bounds];
-    backView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+    backView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     backView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
     [containerView addSubview:backView];
     
@@ -149,10 +149,14 @@
 //    [containerView addSubview:toViewController.view];
     [self addToViewControllerView:toViewController.view containerView:containerView];
     
+    toViewController.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    toViewController.view.alpha = 0;
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
                      animations:^{
                          backView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
+                         toViewController.view.transform = CGAffineTransformIdentity;
+                         toViewController.view.alpha = 1;
                      }
                      completion:^(BOOL finished) {
                          if ([transitionContext transitionWasCancelled]) {
@@ -200,13 +204,14 @@
 }
 
 - (void)dismissAnimationTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+//    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+//    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
                      animations:^{
+//                         fromViewController.view.alpha = 0;
                          containerView.alpha = 0;
                      }
                      completion:^(BOOL finished) {
