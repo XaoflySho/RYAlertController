@@ -1,0 +1,6 @@
+framework module RYAlertController {
+  umbrella header "RYAlertController-umbrella.h"
+
+  export *
+  module * { export * }
+}

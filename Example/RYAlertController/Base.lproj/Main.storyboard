@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,14 +14,33 @@
         <scene sceneID="wQg-tq-qST">
             <objects>
                 <viewController id="whP-gf-Uak" customClass="XSViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
-                        <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOM-AP-S2W">
+                                <rect key="frame" x="102" y="80" width="170" height="30"/>
+                                <state key="normal" title="Show RY Alert Controller"/>
+                                <connections>
+                                    <action selector="showAlertButtonClick:" destination="whP-gf-Uak" eventType="touchUpInside" id="JZc-PD-X9V"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bc4-Tc-bOg">
+                                <rect key="frame" x="105" y="130" width="165" height="30"/>
+                                <state key="normal" title="Show UI Alert Controller"/>
+                                <connections>
+                                    <action selector="showUIAlertButtonClick:" destination="whP-gf-Uak" eventType="touchUpInside" id="rcV-kY-Ybm"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="bc4-Tc-bOg" firstAttribute="top" secondItem="aOM-AP-S2W" secondAttribute="bottom" constant="20" id="AP0-1H-IYP"/>
+                            <constraint firstItem="bc4-Tc-bOg" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="Uub-Ve-qj1"/>
+                            <constraint firstItem="aOM-AP-S2W" firstAttribute="centerX" secondItem="eu3-dN-uOp" secondAttribute="centerX" id="Xar-Dg-h8q"/>
+                            <constraint firstItem="aOM-AP-S2W" firstAttribute="top" secondItem="eu3-dN-uOp" secondAttribute="top" constant="60" id="dmh-9u-Sbi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eu3-dN-uOp"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
