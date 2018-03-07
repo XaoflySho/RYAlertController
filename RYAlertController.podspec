@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'RYAlertController'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of RYAlertController.'
+  s.summary          = 'RYAlertController that mimics UIAlertController'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+With RYAlertController, you can add Subaction. UIAlertController exactly the same usage.
                        DESC
 
   s.homepage         = 'https://github.com/XaoflySho/RYAlertController'

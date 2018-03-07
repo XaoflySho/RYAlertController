@@ -30,6 +30,22 @@
 - (IBAction)showAlertButtonClick:(id)sender {
     RYAlertController *alertController = [RYAlertController alertControllerWithTitle:@"title" message:@"message"];
     
+    RYAlertAction *okAction = [RYAlertAction actionWithTitle:@"Ok" style:RYAlertActionStyleDefault handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+    
+    RYAlertAction *cancelAction = [RYAlertAction actionWithTitle:@"Cancel" style:RYAlertActionStyleCancel handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+    
+    RYAlertAction *destructiveAction = [RYAlertAction actionWithTitle:@"Destructive" style:RYAlertActionStyleDestructive handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+    
+    [alertController addAction:okAction];
+    [alertController addAction:destructiveAction];
+    [alertController addAction:cancelAction];
+
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -44,8 +60,13 @@
         
     }];
     
+    UIAlertAction *destructiveAction = [UIAlertAction actionWithTitle:@"Destructive" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
     [alertController addAction:okAction];
     [alertController addAction:cancelAction];
+    [alertController addAction:destructiveAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
