@@ -152,9 +152,11 @@
 @property (nonatomic, weak) IBOutlet UIScrollView *headerScrollView;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *headerScrollViewBottom;
 
+@property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *subactionSeparatorView;
 @property (nonatomic, weak) IBOutlet UIView *subactionSequenceView;
 @property (nonatomic, weak) IBOutlet UIStackView *subactionStackView;
 
+@property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *actionSeparatorView;
 @property (nonatomic, weak) IBOutlet UIView *actionSequenceView;
 @property (nonatomic, weak) IBOutlet UIStackView *actionStackView;
 
@@ -215,7 +217,8 @@
     
     if (actionsCount) {
         [self.actionSequenceView setHidden:NO];
-        
+        [self.actionSeparatorView setHidden:NO];
+
         if (actionsCount <= 2) {
             self.actionStackView.axis = UILayoutConstraintAxisHorizontal;
             
@@ -266,20 +269,15 @@
         
     } else {
         [self.actionSequenceView setHidden:YES];
+        [self.actionSeparatorView setHidden:YES];
     }
 
-}
-
-- (void)buttonClick:(RYAlertActionButton *)sender {
-    if (sender.action.handler) {
-        sender.action.handler(sender.action);
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loadSubaction {
     if (self.subactionArray.count) {
         [self.subactionSequenceView setHidden:NO];
+        [self.subactionSeparatorView setHidden:NO];
         
         __block RYAlertSubactionView *firstView;
         
@@ -293,16 +291,21 @@
                 firstView = view;
             }
             
-//            NSLayoutConstraint *viewHeight = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:64];
-//            [viewHeight setActive:YES];
-            
             NSLayoutConstraint *viewWidht = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstView attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
             [viewWidht setActive:YES];
         }];
         
     } else {
         [self.subactionSequenceView setHidden:YES];
+        [self.subactionSeparatorView setHidden:YES];
     }
+}
+
+- (void)buttonClick:(RYAlertActionButton *)sender {
+    if (sender.action.handler) {
+        sender.action.handler(sender.action);
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -323,8 +326,19 @@
     [self.subactionArray addObject:action];
 }
 
+- (void)setMessage:(NSString *)message {
+    if (_message != message) {
+        _message = message;
+    }
+    self.messageLabel.text = message;
+}
+
 - (NSArray <RYAlertAction *> *)actions {
     return [NSArray arrayWithArray:self.actionArray];
+}
+
+- (NSArray <RYAlertAction *> *)subactions {
+    return [NSArray arrayWithArray:self.subactionArray];
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
@@ -523,10 +537,10 @@
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [containerView addSubview:view];
     
-    NSLayoutConstraint *viewTop = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:containerView attribute:NSLayoutAttributeTop multiplier:1 constant:8];
+    NSLayoutConstraint *viewTop = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:containerView attribute:NSLayoutAttributeTopMargin multiplier:1 constant:8];
     [viewTop setActive:YES];
 
-    NSLayoutConstraint *viewBottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:containerView attribute:NSLayoutAttributeBottom multiplier:1 constant:-8];
+    NSLayoutConstraint *viewBottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:containerView attribute:NSLayoutAttributeBottomMargin multiplier:1 constant:-8];
     [viewBottom setActive:YES];
 
     NSLayoutConstraint *viewCenterX = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
