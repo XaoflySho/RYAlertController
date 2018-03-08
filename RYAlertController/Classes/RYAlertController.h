@@ -55,16 +55,11 @@ typedef NS_ENUM(NSUInteger, RYAlertActionStyle) {
 
 @end
 
-typedef NS_ENUM(NSUInteger, RYInterfaceActionItemSeparatorViewStyle) {
-    RYInterfaceActionItemSeparatorViewStyleHorizontal = 0,
-    RYInterfaceActionItemSeparatorViewStyleVertical
-};
+@interface RYActionItemSeparatorView : UIView
 
-@interface RYInterfaceActionItemSeparatorView : UIView
+@property (nonatomic, assign) UILayoutConstraintAxis style;
 
-@property (nonatomic, assign) RYInterfaceActionItemSeparatorViewStyle style;
-
-+ (instancetype)separatorViewWithStyle:(RYInterfaceActionItemSeparatorViewStyle)style;
++ (instancetype)separatorViewWithStyle:(UILayoutConstraintAxis)style;
 
 @end
 

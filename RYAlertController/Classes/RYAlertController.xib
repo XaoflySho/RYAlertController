@@ -114,9 +114,14 @@
                                                         <constraint firstAttribute="bottom" secondItem="Dqy-7o-cwb" secondAttribute="bottom" id="min-oV-Hme"/>
                                                     </constraints>
                                                 </scrollView>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap1-W3-xgN" customClass="RYInterfaceActionItemSeparatorView">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ap1-W3-xgN" customClass="RYActionItemSeparatorView">
                                                     <rect key="frame" x="0.0" y="68" width="270" height="18"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="style">
+                                                            <integer key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BTV-SS-5cI">
                                                     <rect key="frame" x="0.0" y="86" width="270" height="64"/>
@@ -155,9 +160,14 @@
                                                         </mask>
                                                     </variation>
                                                 </scrollView>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-DC-xuU" customClass="RYInterfaceActionItemSeparatorView">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-DC-xuU" customClass="RYActionItemSeparatorView">
                                                     <rect key="frame" x="0.0" y="150" width="270" height="0.0"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="style">
+                                                            <integer key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fWX-bM-7eM">
                                                     <rect key="frame" x="0.0" y="150" width="270" height="50"/>

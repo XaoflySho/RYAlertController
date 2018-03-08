@@ -165,11 +165,11 @@
 @property (nonatomic, weak) IBOutlet UIView *foreView;
 @property (nonatomic, weak) IBOutlet UIScrollView *headerScrollView;
 
-@property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *subactionSeparatorView;
+@property (nonatomic, weak) IBOutlet RYActionItemSeparatorView *subactionSeparatorView;
 @property (nonatomic, weak) IBOutlet UIScrollView *subactionScrollView;
 @property (nonatomic, weak) IBOutlet UIStackView *subactionStackView;
 
-@property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *actionSeparatorView;
+@property (nonatomic, weak) IBOutlet RYActionItemSeparatorView *actionSeparatorView;
 @property (nonatomic, weak) IBOutlet UIView *actionSequenceView;
 @property (nonatomic, weak) IBOutlet UIStackView *actionStackView;
 
@@ -225,27 +225,7 @@
         if (actionsCount <= 2) {
             self.actionStackView.axis = UILayoutConstraintAxisHorizontal;
             
-            [self.actionArray enumerateObjectsUsingBlock:^(RYAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-
-                RYAlertActionButton *button = [RYAlertActionButton buttonWithAction:obj];
-                [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [self.actionStackView addArrangedSubview:button];
-                
-                if (!firstButton) {
-                    firstButton = button;
-                }
-                
-                NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
-                [buttonHeight setActive:YES];
-                
-                NSLayoutConstraint *buttonWidht = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
-                [buttonWidht setActive:YES];
-                
-                RYInterfaceActionItemSeparatorView *separatorView = [RYInterfaceActionItemSeparatorView separatorViewWithStyle:RYInterfaceActionItemSeparatorViewStyleVertical];
-                separatorView.translatesAutoresizingMaskIntoConstraints = NO;
-                [self.actionStackView addArrangedSubview:separatorView];
-                
-            }];
+            
             
         } else {
             self.actionStackView.axis = UILayoutConstraintAxisVertical;
@@ -255,22 +235,31 @@
                 [self.actionArray removeObject:firstAction];
                 [self.actionArray addObject:firstAction];
             }
+        }
+        
+        [self.actionArray enumerateObjectsUsingBlock:^(RYAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            [self.actionArray enumerateObjectsUsingBlock:^(RYAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                RYAlertActionButton *button = [RYAlertActionButton buttonWithAction:obj];
-                [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [self.actionStackView addArrangedSubview:button];
-                
-                NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
-                [buttonHeight setActive:YES];
-                
-                RYInterfaceActionItemSeparatorView *separatorView = [RYInterfaceActionItemSeparatorView separatorViewWithStyle:RYInterfaceActionItemSeparatorViewStyleHorizontal];
+            RYAlertActionButton *button = [RYAlertActionButton buttonWithAction:obj];
+            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.actionStackView addArrangedSubview:button];
+            
+            if (!firstButton) {
+                firstButton = button;
+            }
+            
+            NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
+            [buttonHeight setActive:YES];
+            
+            NSLayoutConstraint *buttonWidht = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
+            [buttonWidht setActive:YES];
+            
+            if (idx != actionsCount - 1) {
+                RYActionItemSeparatorView *separatorView = [RYActionItemSeparatorView separatorViewWithStyle:self.actionStackView.axis];
                 separatorView.translatesAutoresizingMaskIntoConstraints = NO;
                 [self.actionStackView addArrangedSubview:separatorView];
-                
-            }];
-        }
+            }
+        }];
+        
     } else {
         [self.actionSequenceView setHidden:YES];
         [self.actionSeparatorView setHidden:YES];
@@ -357,7 +346,7 @@
 @end
 
 
-@interface RYInterfaceActionItemSeparatorView ()
+@interface RYActionItemSeparatorView ()
 
 @property (nonatomic, strong) NSLayoutConstraint *height;
 @property (nonatomic, strong) NSLayoutConstraint *width;
@@ -367,15 +356,15 @@
 
 @end
 
-@implementation RYInterfaceActionItemSeparatorView
+@implementation RYActionItemSeparatorView
 
-+ (instancetype)separatorViewWithStyle:(RYInterfaceActionItemSeparatorViewStyle)style {
-    RYInterfaceActionItemSeparatorView *separatorView = [[RYInterfaceActionItemSeparatorView alloc]initWithStyle:style];
++ (instancetype)separatorViewWithStyle:(UILayoutConstraintAxis)style {
+    RYActionItemSeparatorView *separatorView = [[RYActionItemSeparatorView alloc]initWithStyle:style];
     
     return separatorView;
 }
 
-- (instancetype)initWithStyle:(RYInterfaceActionItemSeparatorViewStyle)style {
+- (instancetype)initWithStyle:(UILayoutConstraintAxis)style {
     self = [super init];
     if (self) {
         [self addLayoutConstraint];
@@ -414,14 +403,14 @@
     [self addSubview:self.foreView];
 }
 
-- (void)setStyle:(RYInterfaceActionItemSeparatorViewStyle)style {
+- (void)setStyle:(UILayoutConstraintAxis)style {
     switch (style) {
-        case RYInterfaceActionItemSeparatorViewStyleHorizontal:
+        case UILayoutConstraintAxisVertical:
             [self.width setActive:NO];
             [self.height setActive:YES];
             break;
         
-        case RYInterfaceActionItemSeparatorViewStyleVertical:
+        case UILayoutConstraintAxisHorizontal:
             [self.height setActive:NO];
             [self.width setActive:YES];
             break;
