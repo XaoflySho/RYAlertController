@@ -81,20 +81,36 @@
 @implementation RYAlertSubactionView
 
 + (instancetype)viewWithAction:(RYAlertAction *)action {
-    RYAlertSubactionView *view = [[RYAlertSubactionView alloc]init];
+    RYAlertSubactionView *view = [[RYAlertSubactionView alloc]initWithAction:action];
     
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:action.image];
+    return view;
+}
+
+- (instancetype)initWithAction:(RYAlertAction *)action {
+    self = [super init];
+    if (self) {
+        self.action = action;
+        [self viewInit];
+    }
+    return self;
+}
+
+- (void)viewInit {
+    NSLayoutConstraint *width = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:64];
+    [width setActive:YES];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:self.action.image];
     imageView.translatesAutoresizingMaskIntoConstraints = NO;
     imageView.contentMode = UIViewContentModeCenter;
-    [view addSubview:imageView];
+    [self addSubview:imageView];
     
     UILabel *titleLabel = [[UILabel alloc]init];
     titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    titleLabel.text = action.title;
+    titleLabel.text = self.action.title;
     titleLabel.font = [UIFont systemFontOfSize:13.0f];
     titleLabel.textColor = [UIColor colorWithRed:0 green:0.48 blue:1 alpha:1];
     titleLabel.textAlignment = NSTextAlignmentCenter;
-    [view addSubview:titleLabel];
+    [self addSubview:titleLabel];
     
     NSLayoutConstraint *imageViewCenterX = [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:imageView.superview attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
     [imageViewCenterX setActive:YES];
@@ -119,8 +135,8 @@
     
     RYAlertActionButton *button = [RYAlertActionButton buttonWithType:UIButtonTypeSystem];
     button.translatesAutoresizingMaskIntoConstraints = NO;
-    button.action = action;
-    [view addSubview:button];
+    button.action = self.action;
+    [self addSubview:button];
     
     NSLayoutConstraint *buttonTop = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:button.superview attribute:NSLayoutAttributeTop multiplier:1 constant:0];
     [buttonTop setActive:YES];
@@ -134,9 +150,7 @@
     NSLayoutConstraint *buttonRight = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:button.superview attribute:NSLayoutAttributeRight multiplier:1 constant:0];
     [buttonRight setActive:YES];
     
-    view.button = button;
-    
-    return view;
+    self.button = button;
 }
 
 @end
@@ -150,10 +164,9 @@
 
 @property (nonatomic, weak) IBOutlet UIView *foreView;
 @property (nonatomic, weak) IBOutlet UIScrollView *headerScrollView;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *headerScrollViewBottom;
 
 @property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *subactionSeparatorView;
-@property (nonatomic, weak) IBOutlet UIView *subactionSequenceView;
+@property (nonatomic, weak) IBOutlet UIScrollView *subactionScrollView;
 @property (nonatomic, weak) IBOutlet UIStackView *subactionStackView;
 
 @property (nonatomic, weak) IBOutlet RYInterfaceActionItemSeparatorView *actionSeparatorView;
@@ -161,7 +174,6 @@
 @property (nonatomic, weak) IBOutlet UIStackView *actionStackView;
 
 @property (nonatomic, strong) NSMutableArray<RYAlertAction *> *actionArray;
-@property (nonatomic, strong) RYAlertAction *cancelAction;
 
 @property (nonatomic, strong) NSMutableArray<RYAlertAction *> *subactionArray;
 
@@ -203,49 +215,46 @@
 
 - (void)loadAction {
     NSUInteger actionsCount = self.actionArray.count;
-    __block RYAlertActionButton *cancelButton;
-    if (self.cancelAction) {
-        actionsCount++;
-        
-        cancelButton = [RYAlertActionButton buttonWithAction:self.cancelAction];
-        [cancelButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.actionStackView addArrangedSubview:cancelButton];
-        
-        NSLayoutConstraint *cancelButtonHeight = [NSLayoutConstraint constraintWithItem:cancelButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
-        [cancelButtonHeight setActive:YES];
-    }
     
     if (actionsCount) {
         [self.actionSequenceView setHidden:NO];
         [self.actionSeparatorView setHidden:NO];
 
+        __block RYAlertActionButton *firstButton;
+        
         if (actionsCount <= 2) {
             self.actionStackView.axis = UILayoutConstraintAxisHorizontal;
             
             [self.actionArray enumerateObjectsUsingBlock:^(RYAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 
-                RYInterfaceActionItemSeparatorView *separatorView = [RYInterfaceActionItemSeparatorView separatorViewWithStyle:RYInterfaceActionItemSeparatorViewStyleVertical];
-                separatorView.translatesAutoresizingMaskIntoConstraints = NO;
-                [self.actionStackView addArrangedSubview:separatorView];
-                
                 RYAlertActionButton *button = [RYAlertActionButton buttonWithAction:obj];
                 [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
                 [self.actionStackView addArrangedSubview:button];
                 
-                if (!cancelButton) {
-                    cancelButton = button;
+                if (!firstButton) {
+                    firstButton = button;
                 }
                 
                 NSLayoutConstraint *buttonHeight = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:44];
                 [buttonHeight setActive:YES];
                 
-                NSLayoutConstraint *buttonWidht = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:cancelButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
+                NSLayoutConstraint *buttonWidht = [NSLayoutConstraint constraintWithItem:button attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstButton attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
                 [buttonWidht setActive:YES];
+                
+                RYInterfaceActionItemSeparatorView *separatorView = [RYInterfaceActionItemSeparatorView separatorViewWithStyle:RYInterfaceActionItemSeparatorViewStyleVertical];
+                separatorView.translatesAutoresizingMaskIntoConstraints = NO;
+                [self.actionStackView addArrangedSubview:separatorView];
                 
             }];
             
         } else {
             self.actionStackView.axis = UILayoutConstraintAxisVertical;
+            
+            RYAlertAction *firstAction = [self.actionArray firstObject];
+            if (firstAction.style == RYAlertActionStyleCancel) {
+                [self.actionArray removeObject:firstAction];
+                [self.actionArray addObject:firstAction];
+            }
             
             [self.actionArray enumerateObjectsUsingBlock:^(RYAlertAction * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 
@@ -261,12 +270,7 @@
                 [self.actionStackView addArrangedSubview:separatorView];
                 
             }];
-            
-            [self.actionStackView insertArrangedSubview:cancelButton atIndex:self.actionStackView.arrangedSubviews.count - 1];
         }
-        
-
-        
     } else {
         [self.actionSequenceView setHidden:YES];
         [self.actionSeparatorView setHidden:YES];
@@ -276,7 +280,7 @@
 
 - (void)loadSubaction {
     if (self.subactionArray.count) {
-        [self.subactionSequenceView setHidden:NO];
+        [self.subactionScrollView setHidden:NO];
         [self.subactionSeparatorView setHidden:NO];
         
         __block RYAlertSubactionView *firstView;
@@ -293,10 +297,11 @@
             
             NSLayoutConstraint *viewWidht = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:firstView attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
             [viewWidht setActive:YES];
+            
         }];
         
     } else {
-        [self.subactionSequenceView setHidden:YES];
+        [self.subactionScrollView setHidden:YES];
         [self.subactionSeparatorView setHidden:YES];
     }
 }
@@ -315,7 +320,7 @@
 
 - (void)addAction:(RYAlertAction *)action {
     if (action.style == RYAlertActionStyleCancel) {
-        self.cancelAction = action;
+        [self.actionArray insertObject:action atIndex:0];
     } else {
         [self.actionArray addObject:action];
     }
@@ -342,23 +347,12 @@
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-//    NSLog(@"animationControllerForPresentedController");
     return [RYAlertControllerAnimationTransition transitionWithType:RYAlertAnimationTypePresent];
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-//    NSLog(@"animationControllerForDismissedController");
     return [RYAlertControllerAnimationTransition transitionWithType:RYAlertAnimationTypeDismiss];
 }
-
-//- (id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator {
-//    NSLog(@"interactionControllerForPresentation");
-//    return <#expression#>
-//}
-//
-//- (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
-//    NSLog(@"interactionControllerForDismissal");
-//}
 
 @end
 
@@ -482,7 +476,6 @@
 
 - (void)presentAnimationTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-//    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     
@@ -493,7 +486,6 @@
     
     [self addUserInteractionViewToContainerView:containerView];
     
-//    [containerView addSubview:toViewController.view];
     [self addToViewControllerView:toViewController.view containerView:containerView];
     
     toViewController.view.transform = CGAffineTransformMakeScale(1.2, 1.2);
@@ -551,14 +543,11 @@
 }
 
 - (void)dismissAnimationTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-//    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-//    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     UIView *containerView = [transitionContext containerView];
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
                      animations:^{
-//                         fromViewController.view.alpha = 0;
                          containerView.alpha = 0;
                      }
                      completion:^(BOOL finished) {

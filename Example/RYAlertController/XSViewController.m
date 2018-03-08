@@ -28,7 +28,7 @@
 }
 
 - (IBAction)showAlertButtonClick:(id)sender {
-    RYAlertController *alertController = [RYAlertController alertControllerWithTitle:@"title" message:@"message"];
+    RYAlertController *alertController = [RYAlertController alertControllerWithTitle:@"TITLE" message:@"Message"];
     
     RYAlertAction *okAction = [RYAlertAction actionWithTitle:@"Ok" style:RYAlertActionStyleDefault handler:^(RYAlertAction * _Nonnull action) {
         NSLog(@"%@", action.title);
@@ -46,11 +46,33 @@
     [alertController addAction:destructiveAction];
     [alertController addAction:cancelAction];
 
+    RYAlertAction *bikeSubaction = [RYAlertAction subactionWithTitle:@"Bike" image:[UIImage imageNamed:@"Bike"] handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+    
+    RYAlertAction *busSubaction = [RYAlertAction subactionWithTitle:@"Bus" image:[UIImage imageNamed:@"Bus"] handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+    
+    RYAlertAction *tramSubaction = [RYAlertAction subactionWithTitle:@"Tram" image:[UIImage imageNamed:@"Tram"] handler:^(RYAlertAction * _Nonnull action) {
+        NSLog(@"%@", action.title);
+    }];
+
+    [alertController addSubaction:bikeSubaction];
+    [alertController addSubaction:busSubaction];
+    [alertController addSubaction:tramSubaction];
+    [alertController addSubaction:bikeSubaction];
+    [alertController addSubaction:busSubaction];
+    [alertController addSubaction:tramSubaction];
+    [alertController addSubaction:bikeSubaction];
+    [alertController addSubaction:busSubaction];
+    [alertController addSubaction:tramSubaction];
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (IBAction)showUIAlertButtonClick:(id)sender {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"title" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"TITLE" message:@"message" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         

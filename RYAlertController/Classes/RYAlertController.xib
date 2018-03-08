@@ -19,8 +19,8 @@
                 <outlet property="foreView" destination="Eml-A6-Udk" id="Tn7-kZ-w42"/>
                 <outlet property="headerScrollView" destination="evC-KX-zZj" id="m1G-nZ-jgU"/>
                 <outlet property="messageLabel" destination="WoG-xk-2mB" id="rvl-Vd-SvW"/>
+                <outlet property="subactionScrollView" destination="BTV-SS-5cI" id="VuW-vi-Bzw"/>
                 <outlet property="subactionSeparatorView" destination="Ap1-W3-xgN" id="JG9-9w-N3Y"/>
-                <outlet property="subactionSequenceView" destination="XZz-ur-vKb" id="RtI-TW-25C"/>
                 <outlet property="subactionStackView" destination="pph-oy-H6h" id="RoR-Am-BOC"/>
                 <outlet property="titleLabel" destination="81i-qq-vWY" id="8vu-dB-xpJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -118,24 +118,43 @@
                                                     <rect key="frame" x="0.0" y="68" width="270" height="18"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
-                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XZz-ur-vKb">
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BTV-SS-5cI">
                                                     <rect key="frame" x="0.0" y="86" width="270" height="64"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pph-oy-H6h">
-                                                            <rect key="frame" x="0.0" y="0.0" width="270" height="88"/>
+                                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XZz-ur-vKb">
+                                                            <rect key="frame" x="0.0" y="-32" width="270" height="64"/>
+                                                            <subviews>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pph-oy-H6h">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="270" height="88"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="ddl-pz-j7z"/>
+                                                                    </constraints>
+                                                                </stackView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="ddl-pz-j7z"/>
+                                                                <constraint firstItem="pph-oy-H6h" firstAttribute="leading" secondItem="XZz-ur-vKb" secondAttribute="leading" id="E0q-ft-px4"/>
+                                                                <constraint firstItem="pph-oy-H6h" firstAttribute="top" secondItem="XZz-ur-vKb" secondAttribute="top" id="TyQ-GS-HS6"/>
+                                                                <constraint firstAttribute="trailing" secondItem="pph-oy-H6h" secondAttribute="trailing" id="s5g-YA-VOH"/>
+                                                                <constraint firstAttribute="bottom" secondItem="pph-oy-H6h" secondAttribute="bottom" id="wtX-aG-QZI"/>
                                                             </constraints>
-                                                        </stackView>
+                                                        </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
-                                                        <constraint firstItem="pph-oy-H6h" firstAttribute="leading" secondItem="XZz-ur-vKb" secondAttribute="leading" id="E0q-ft-px4"/>
-                                                        <constraint firstItem="pph-oy-H6h" firstAttribute="top" secondItem="XZz-ur-vKb" secondAttribute="top" id="TyQ-GS-HS6"/>
-                                                        <constraint firstAttribute="trailing" secondItem="pph-oy-H6h" secondAttribute="trailing" id="s5g-YA-VOH"/>
-                                                        <constraint firstAttribute="bottom" secondItem="pph-oy-H6h" secondAttribute="bottom" id="wtX-aG-QZI"/>
+                                                        <constraint firstAttribute="bottom" secondItem="XZz-ur-vKb" secondAttribute="bottom" id="Nma-Mx-0aA"/>
+                                                        <constraint firstItem="XZz-ur-vKb" firstAttribute="width" relation="greaterThanOrEqual" secondItem="BTV-SS-5cI" secondAttribute="width" id="QIT-FL-bOY"/>
+                                                        <constraint firstItem="XZz-ur-vKb" firstAttribute="height" secondItem="BTV-SS-5cI" secondAttribute="height" id="eJU-gD-Zjw"/>
+                                                        <constraint firstItem="XZz-ur-vKb" firstAttribute="leading" secondItem="BTV-SS-5cI" secondAttribute="leading" id="jg9-qx-PtC"/>
+                                                        <constraint firstAttribute="trailing" secondItem="XZz-ur-vKb" secondAttribute="trailing" id="kaR-IB-PnA"/>
+                                                        <constraint firstItem="XZz-ur-vKb" firstAttribute="top" secondItem="BTV-SS-5cI" secondAttribute="top" id="oJn-Ae-1yP"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="vwd-bW-p2G"/>
                                                     </constraints>
-                                                </view>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="vwd-bW-p2G"/>
+                                                        </mask>
+                                                    </variation>
+                                                </scrollView>
                                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-DC-xuU" customClass="RYInterfaceActionItemSeparatorView">
                                                     <rect key="frame" x="0.0" y="150" width="270" height="0.0"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
